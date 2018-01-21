@@ -15,10 +15,10 @@ int main(int argc, char **argv){
 	modbus_t *ctx;		//modbus context for work whith protocol
 
 	//Run programm like a daemon
-	pid = fork();
-	if(pid){
-		return -1;
-	}
+//	pid = fork();
+//	if(pid){
+//		return -1;
+//	}
 
 	ctx = modbus_new_rtu("/dev/ttyUSB0", 2400, 'N', 8, 1);
 	if (ctx == NULL) {
@@ -34,6 +34,7 @@ int main(int argc, char **argv){
 			read_data[i] = modbus_read_input_registers(ctx, registers[i], 0x02, buff);
 			printf("%20s: %10.2f\n", legend[i], result_convert(buff));
 		}
+		i=0;
 	}
 	modbus_free(ctx);
 	return 0;

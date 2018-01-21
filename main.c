@@ -29,13 +29,13 @@ int main(int argc, char **argv){
 	modbus_set_slave(ctx, 1);
 	modbus_connect(ctx);
 
-	while(1){
+//	while(1){
 		for(i; i < 13; i++){
 			read_data[i] = modbus_read_input_registers(ctx, registers[i], 0x02, buff);
 			printf("%20s: %10.2f\n", legend[i], result_convert(buff));
 		}
 		i=0;
-	}
+//	}
 	modbus_free(ctx);
 	return 0;
 }

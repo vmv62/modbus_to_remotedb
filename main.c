@@ -7,7 +7,10 @@ float result_convert(uint16_t *raw_data);
 
 int main(int argc, char **argv){
 
-	modbus_t *ctx;
+	uint16_t buff[10];	//buffer for temporary data
+	float read_data[12]; 	//Array for store read data
+	int i=0;		//Servise variable
+	modbus_t *ctx;		//modbus context for work whith protocol
 
 	ctx = modbus_new_rtu("/dev/ttyUSB0", 2400, 'N', 8, 1);
 	if (ctx == NULL) {
@@ -17,17 +20,11 @@ int main(int argc, char **argv){
 
 	modbus_set_slave(ctx, 1);
 	modbus_connect(ctx);
-	uint16_t buff[20];
 
-	int rc = modbus_read_input_registers(ctx, CURRENT, 0x02, buff);
-	if (rc == -1) {
-	    return -1;
+	for(i; i < 13; i++){
+		read_data[i] = modbus_read_input_registers(ctx, registers[i], 0x02, buff);
+		printf("%20s: %10.2f\n", legend[i], result_convert(buff));
 	}
-
-	float data;
-
-	printf("Result: %.2f\n", result_convert(buff));
-
 	modbus_free(ctx);
 	return 0;
 }

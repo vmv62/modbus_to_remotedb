@@ -3,6 +3,7 @@
 #include <modbus/modbus.h>
 #include <unistd.h>
 #include "defineses.h"
+#include "mysql.h"
 
 float result_convert(uint16_t *raw_data);
 
@@ -11,7 +12,7 @@ int main(int argc, char **argv){
 	pid_t pid;		//fork context
 	uint16_t buff[10];	//buffer for temporary data
 	float read_data[12]; 	//Array for store read data
-	int i=0;		//Servise variable
+	int i=0, tmp_result;		//Servise variable
 	modbus_t *ctx;		//modbus context for work whith protocol
 
 	//Run programm like a daemon
@@ -31,11 +32,13 @@ int main(int argc, char **argv){
 
 //	while(1){
 		for(i; i < 13; i++){
-			read_data[i] = modbus_read_input_registers(ctx, registers[i], 0x02, buff);
-			printf("%20s: %10.2f\n", legend[i], result_convert(buff));
+			modbus_read_input_registers(ctx, registers[i], 0x02, buff);
+			read_data[i] = result_convert(buff);
+//			printf("%20s: %10.2f\n", legend[i], result_convert(buff));
 		}
 		i=0;
 //	}
+	add_to_db(read_data);
 	modbus_free(ctx);
 	return 0;
 }

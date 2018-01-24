@@ -1,0 +1,4 @@
+gcc main.c mysql.c -lmodbus -I/usr/include/mysql 
+-L/usr/lib/i386-linux-gnu  -lmariadbclient -lpthread -lz -lm -ldl
+gcc main.c mysql.c -lmodbus -I/usr/include/mysql 
+-L/usr/lib/i386-linux-gnu  -lmariadbclient -lpthread -lz -lm -ldl

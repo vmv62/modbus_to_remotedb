@@ -21,7 +21,7 @@ int main(int argc, char **argv){
 
 	strcpy(db->user, "root");
 	strcpy(db->passwd, "23272829");
-	strcpy(db->server, "localhost");
+	strcpy(db->server, "194.67.204.166");
         strcpy(db->name, "sensors");
 	strcpy(db->table, "Counter");
 
